@@ -1,0 +1,12 @@
+/*.table {
+    table-layout: fixed;
+    word-wrap: break-word;
+}
+thead th {
+    background-color: #006DCC;
+    color: white;
+}*/
+
+ .table tbody>tr>td{
+        vertical-align: middle;
+    }

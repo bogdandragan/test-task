@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Reset password</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<script src="js/jquery-1.11.3.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+          <a class="navbar-brand" href="./login.html">Test project</a>                   
+      </div>
+    </nav>
+<div class="container" style="margin-top: 70px;">
+    <h2 style="margin-left: 0px">Reset password</h2>
+
+    <form id="forgot" method="post" class="col-md-4">
+    <label for="email">Enter email</label>
+    <div class="form-group">
+        <input class="form-control" type="email" id="email" name="email"/>
+    </div>
+
+    <div class="form-group">
+        <button id="#submit" style="float: left;" type="submit" class="btn btn-primary">Reset</button>
+        <div id="info" class="col-md-9"><div> 
+    </div>
+    </form>
+</div>  
+
+<script type="text/javascript">
+    	$( "#forgot" ).submit(function(event) {
+    		event.preventDefault();
+
+    		var request = {"action":"forgot", "params":{"email": $("#email").val()}};
+
+    		$.ajax({
+    			type: "POST",
+    			url: "service/api.php",
+    			data: JSON.stringify(request),
+    			contentType: "application/json; charset=utf-8",
+    			success: function(data){ 				
+    				var obj = JSON.parse(data); 
+    				if(obj['error'] == ''){
+    			$("#info").html("<p style='color: green;'>"+"An e-mail message with instructions has been sent to your email"+"</p>");
+    				}
+    				else{
+    					$("#info").html("<p style='color: red;'>"+obj['error']+"</p>");
+    				}
+    			}
+			});					
+		});
+
+    </script>
+</body>
+</html>

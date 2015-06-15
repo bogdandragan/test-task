@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Authorization</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/login.css" rel="stylesheet">
+	<script src="js/jquery-1.11.3.min.js"></script>
+	<script src="js/js.cookie.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+	<div class="container">
+      <form id="signin" class="form-signin" method="post">
+        <h2 class="form-signin-heading text-center">Authorization</h2>
+        <input name="email" id="email" type="email" class="form-control" placeholder="Email address" required autofocus>
+        <input name="pass" id="pass" type="password" id="inputPassword" class="form-control" placeholder="Password" required>      
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <a href="register.html" class="btn btn-lg btn-danger btn-block">Register</a>
+        <a href="forgot_pass.html" class="forgot">Forgot password?</a>
+      </form>
+    </div>
+
+    <script type="text/javascript">
+    	$( "#signin" ).submit(function(event) {
+    		event.preventDefault();
+
+    		var request = {"action":"login", "params":{"email": $("#email").val(), "pass": $("#pass").val()}};
+
+    		$("#alert").empty();
+    		$.ajax({
+    			type: "POST",
+    			url: "service/api.php",
+    			data: JSON.stringify(request),
+    			contentType: "application/json; charset=utf-8",
+    			success: function(data){ 
+    				var obj = JSON.parse(data); 
+    				if(obj['error'] == ''){
+    					Cookies.set('accessToken', obj['data'].accessToken);
+    					window.location.replace("./index.html");
+    				}
+    				else{
+    					$("#pass").after("<p id='alert' style='color: red' class='text-center'>"+obj['error']+"</p>");
+    				}
+    			}
+			});					
+		});
+
+    </script>
+</body>
+</html>
